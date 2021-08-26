@@ -1,0 +1,8 @@
+class emp{
+public void ()
+{//code}
+}
+public void2 ()
+{//code}
+}
+

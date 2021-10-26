@@ -1,0 +1,178 @@
+
+1.db.movie.update(
+{title:"Fight Club"},
+{
+	title:"Fight Club",
+	writer:"Chuck Palahniuk",
+	year:"1999",
+	actors:[
+	"Brad Pitt",
+	"Edward Norton"
+	]
+})
+
+2.db.movie.insert(
+{
+title : "Pulp Fiction",
+
+writer : "Quentin Tarantino",
+
+year : "1994",
+
+actors : [
+
+  "John Travolta",
+
+  "Uma Thurman"
+
+]
+})
+
+3. db.movie.insert(
+{
+title : "Inglorious Basterds",
+
+writer : "Quentin Tarantino",
+
+year : "2009",
+
+actors : [
+
+  "Brad Pitt",
+
+  "Diane Kruger",
+
+  "Eli Roth"
+
+]
+})
+
+4.  db.movie.insert(
+{
+title : "The Hobbit: An Unexpected Journey",
+
+writer : "J.R.R. Tolkein",
+
+year : "2012",
+
+franchise : "The Hobbit"
+})
+
+5.  db.movie.insert(
+{
+title : "The Hobbit: The Desolation of Smaug",
+
+writer : "J.R.R. Tolkein",
+
+year : "2013",
+
+franchise : "The Hobbit"
+})
+
+
+db.movie.insert(
+{
+title : "The Hobbit: The Battle of the Five Armies",
+
+writer : "J.R.R. Tolkein",
+
+year : "2012",
+
+franchise : "The Hobbit",
+
+synopsis : "Bilbo and Company are forced to engage in a war against an array of combatants and keep the Lonely Mountain from falling into the hands of a rising darkness."
+})
+
+
+db.movie.insert(
+{
+title : "Pee Wee Herman's Big Adventure"
+})
+
+
+
+db.movie.insert(
+{
+title : "Avatar"
+})
+
+
+
+***********db.users.update( { _id: "1" }, { $rename: { 'last_name': 'lname', 'first_name': 'fname' } } )*****db.books.updateMany(
+    { },
+    { $set: { purchase_date: new Date() } }
+)**********
+
+ db.movie.update({title : "The Hobbit: The Desolation of Smaug"}, {$set: {synopsis :"The dwarves, along with Bilbo Baggins and Gandalf the Grey, continue their quest to reclaim Erebor, their homeland, from Smaug. Bilbo Baggins is in possession of a mysterious and magical ring.to reclaim their mountain home - and the gold within it - from the dragon Smaug."}}
+)
+
+
+
+ db.movie.update({title : "The Hobbit: An Unexpected Journey"}, {$set: {synopsis :"The dwarves, along with Bilbo Baggins and Gandalf the Grey, continue their quest to reclaim Erebor, their homeland, from Smaug. Bilbo Baggins is in possession of a mysterious and magical ring."}}
+)
+
+--------Day2-----------
+Aggregate functions
+db.univ.insert({
+  country : 'Spain',
+  city : 'Salamanca',
+  name : 'USAL',
+  location : {
+    type : 'Point',
+    coordinates : [ -5.6722512,17, 40.9607792 ]
+  },
+  students : [
+    { year : 2014, number : 24774 },
+    { year : 2015, number : 23166 },
+    { year : 2016, number : 21913 },
+    { year : 2017, number : 21715 }
+  ]
+})
+
+db.univ.insert({
+  country : 'Spain',
+  city : 'Salamanca',
+  name : 'UPSA',
+  location : {
+    type : 'Point',
+    coordinates : [ -5.6691191,17, 40.9631732 ]
+  },
+  students : [
+    { year : 2014, number : 4788 },
+    { year : 2015, number : 4821 },
+    { year : 2016, number : 6550 },
+    { year : 2017, number : 6125 }
+  ]
+})
+
+
+db.univ.aggregate(
+	{$project:{
+		_id:0,
+		country:"$country",
+		city:"$city",
+		name:"$name"
+	}
+	}
+).pretty()
+
+db.univ.aggregate(
+    [{
+    $group : {_id : "$name", totaldocs:{$sum:1}}
+    }]
+)
+
+Insert and queries
+db.movies.find({})
+db.movies.find({ writer : "Quentin Tarantino" })
+db.movies.find({ actors :  "Brad Pitt" })
+db.movies.find({ franchise : "The Hobbit" })
+db.movies.find({year:{$gt:"1990", $lt:"2000"}})
+db.movies.find({$or:[{year:{$gt:"2010"}},{year: {$lt:"2000"}}]})
+
+
+db.movies.find({synopsis: /Gandalf/}).pretty()
+db.movies.find({synopsis: /Bilbo/}).pretty()
+db.movies.find({synopsis:{$regex:/Bilbo/,$not:/Gandalf/} }).pretty()
+db.movies.find({$or:[{synopsis: /dwarves/},{synopsis:/hobbit/}]}).pretty()
+db.movies.find({$and:[{synopsis: /gold/},{synopsis:/dragon/}]}).pretty() 
